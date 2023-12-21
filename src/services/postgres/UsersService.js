@@ -3,6 +3,7 @@ const InvariantError = require("../../exceptions/InvariantError");
 const { nanoid } = require("nanoid");
 const bcrypt = require("bcrypt");
 const NotFoundError = require("../../exceptions/NotFoundError");
+const AuthenticationError = require("../../exceptions/AuthenticationError");
 
 class UsersService {
   constructor() {
@@ -43,6 +44,29 @@ class UsersService {
         "Gagal menambahkan user. Username sudah digunakan"
       );
     }
+  }
+
+  async verifyUserCredentials(username, password) {
+    const query = {
+      text: "SELECT id, password FROM users WHERE username = $1",
+      values: [username],
+    };
+
+    const result = await this._pool.query(query);
+
+    if (!result.rows.length) {
+      throw new AuthenticationError("Kredensial yang Anda berikan salah");
+    }
+
+    const { id, password: hasehdPassword } = result.rows[0];
+
+    const match = await bcrypt.compare(password, hasehdPassword);
+
+    if (!match) {
+      throw new AuthenticationError("Kredensial yang Anda berikan salah");
+    }
+
+    return id;
   }
 
   async getUserById(userId) {
