@@ -30,7 +30,7 @@ class AuthenticationsHandler {
 
       const response = h.response({
         status: "success",
-        message: "Autentication berhasil ditambahkan",
+        message: "Authentication berhasil ditambahkan",
         data: {
           accessToken,
           refreshToken,

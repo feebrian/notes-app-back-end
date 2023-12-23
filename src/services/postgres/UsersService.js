@@ -11,9 +11,7 @@ class UsersService {
   }
 
   async addUser({ username, password, fullname }) {
-    // TODO: Verifikasi username, pastikan belum terdaftar
     await this.verifyNewUsername(username);
-    // TODO: Bila verifikasi lolos, maka masukkan user baru ke database
     const id = `user-${nanoid(16)}`;
     const hasehdPassword = await bcrypt.hash(password, 10);
 
@@ -41,7 +39,7 @@ class UsersService {
 
     if (result.rows.length > 0) {
       throw new InvariantError(
-        "Gagal menambahkan user. Username sudah digunakan"
+        "Gagal menambahkan user. Username sudah digunakan."
       );
     }
   }
