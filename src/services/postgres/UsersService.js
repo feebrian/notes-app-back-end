@@ -81,6 +81,14 @@ class UsersService {
 
     return result.rows[0];
   }
+
+  async getUsersByUsername(username) {
+    const result = await this._pool.query(
+      "SELECT id, username, fullname FROM users WHERE username LIKE $1",
+      [`%${username}%`]
+    );
+    return result.rows;
+  }
 }
 
 module.exports = UsersService;
