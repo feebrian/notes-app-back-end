@@ -7,8 +7,7 @@ class CollaborationsHandler {
     this._validator = validator;
 
     this.postCollaborationHandler = this.postCollaborationHandler.bind(this);
-    this.deleteCollaborationHandler =
-      this.deleteCollaborationHandler.bind(this);
+    this.deleteCollaborationHandler = this.deleteCollaborationHandler.bind(this);
   }
 
   async postCollaborationHandler(request, h) {
@@ -19,8 +18,7 @@ class CollaborationsHandler {
 
       await this._notesService.verifyNoteOwner(noteId, credentialId);
 
-      const collaborationId =
-        await this._collaborationsService.addCollaboration(noteId, userId);
+      const collaborationId = await this._collaborationsService.addCollaboration(noteId, userId);
 
       const response = h.response({
         status: "success",
@@ -51,7 +49,7 @@ class CollaborationsHandler {
     }
   }
 
-  async deleteCollaborationHandler(request) {
+  async deleteCollaborationHandler(request, h) {
     try {
       await this._validator.validateCollaborationPayload(request.payload);
       const { id: credentialId } = request.auth.credentials;
