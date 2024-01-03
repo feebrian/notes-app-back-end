@@ -13,8 +13,8 @@ class ExportsHandler {
       this._validator.validateExportNotesPayload(request.payload);
 
       const message = {
-        userId: request.auth.credentials,
-        targetEmail: request.payload,
+        userId: request.auth.credentials.id,
+        targetEmail: request.payload.targetEmail,
       };
 
       await this._service.sendMessage('export:notes', JSON.stringify(message));
