@@ -5,3 +5,6 @@ node_modules/
 # environment variable
 .env
 .prod.env
+
+# uploaded resources
+src/api/uploads/file
